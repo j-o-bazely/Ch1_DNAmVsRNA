@@ -1,0 +1,4 @@
+This is a guide to the workflow for this chapter. Every point will reference the chronological script in the analysis, what that script does and why we do it
+
+More in-depth documentation can be found within the scripts, with each script including detailed commenting for each code block
+
