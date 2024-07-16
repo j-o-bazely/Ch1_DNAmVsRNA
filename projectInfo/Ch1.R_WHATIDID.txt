@@ -2,3 +2,16 @@ This is a guide to the workflow for this chapter. Every point will reference the
 
 More in-depth documentation can be found within the scripts, with each script including detailed commenting for each code block
 
+
+Jul 16th 
+- Ch1.A_rawDataQC.sh created
+- Ch1.A_rawDataQC.sh finished  (NEEDS TESTING)
+
+- Ch1.RNA directory created
+	- Metadata created
+	- QC created
+	- Scripts created
+
+- Ch1.R_scriptOrder created
+- Ch1.R_requiredModules.sh created
+- Ch1.R_inputDataDescription.txt created
