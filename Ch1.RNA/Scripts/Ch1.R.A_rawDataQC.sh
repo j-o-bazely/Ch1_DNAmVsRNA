@@ -21,9 +21,14 @@
 # This code creates necessary folders for storing sample data and associated QC results
 # before running QC analysis on each of these samples
 
+# Tutorial for using fastQC: https://tinyurl.com/rut9jypw
+
 
 
 ####        Environment Preparation         ####
+
+## Moving into top of Ch1.R directory
+cd ../..
 
 ## Loading sample list to create array
 sample_list=/Metadata/JB1R_SampleList.txt
@@ -32,12 +37,8 @@ sample_list=/Metadata/JB1R_SampleList.txt
     # cat =                 # sed = 
 ID=$( cat "$sample_list" | sed -n ${SGE_TASK_ID}p )
 
-
 ## Creating directory for each sample
 mkdir /Ch1.RNA/rawData_QC/${ID}
-
-
-## Creating a report directory in each of these folders
 
 ## Setting directory paths in and out of each of these folders
 IN=/Ch1.RNA/raw_data/${ID}
@@ -55,9 +56,9 @@ module load fastqc/0.11.9
 
 ## Run fastQC on the current sample
 fastqc -o ${OUT} -f fastq -t 1 ${ID}_1.fq.gz ${ID}_2.fq.gz
-    #  -o   :
-    #  -f   :
-    # fastq :
-    #  -t   :
-    #   1   :
-    # Two files provided as this was a paired end 
+    #  -o   : Specifies output directory
+    #  -f   : Specifies the format of the input files
+    # fastq : The format of the input files
+    #  -t   : Argument for the number of threads to be used
+    #   1   : Specifies 1 thread to be used
+    # (Two files provided as we have paired end read data)
