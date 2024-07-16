@@ -27,8 +27,8 @@
 
 ####        Environment Preparation         ####
 
-## Moving into top of Ch1.R directory
-cd ../..
+## Moving into top of Ch1.RNA directory
+cd ..
 
 ## Loading sample list to create array
 sample_list=/Metadata/JB1R_SampleList.txt
@@ -38,16 +38,16 @@ sample_list=/Metadata/JB1R_SampleList.txt
 ID=$( cat "$sample_list" | sed -n ${SGE_TASK_ID}p )
 
 ## Creating directory for each sample
-mkdir /Ch1.RNA/rawData_QC/${ID}
+mkdir /Ch1.RNA/QC/${ID}
 
 ## Setting directory paths in and out of each of these folders
 IN=/Ch1.RNA/raw_data/${ID}
-OUT=/Ch1.RNA/rawData_QC/${ID}
+OUT=/Ch1.RNA/QC/${ID}
 
 ## Move into the directory of each sample in preparation for running QC reports
 cd ${IN}
 
-## If required, load fastqc module
+## If required, loading fastqc module
 module load fastqc/0.11.9
 
 
@@ -62,3 +62,7 @@ fastqc -o ${OUT} -f fastq -t 1 ${ID}_1.fq.gz ${ID}_2.fq.gz
     #  -t   : Argument for the number of threads to be used
     #   1   : Specifies 1 thread to be used
     # (Two files provided as we have paired end read data)
+
+
+## Unloading the fastQC module
+module unload fastqc/0.11.9
