@@ -1,4 +1,4 @@
-## Parameters for Apocrita job submission 
+## Parameters for Apocrita job submission
     # Will simply be commented out if not running on apocrita
 
 #!/bin/bash
@@ -11,7 +11,7 @@
 #$ -tc 1
 
 
-####             Ch1_R.1_rawQC              ####         
+####             Ch1_R.1_rawQC              ####
 # Written by: James B
 
 # Original Date: 24.05.2024
@@ -34,14 +34,14 @@ cd ..
 sample_list=$(pwd)/Metadata/JB1R_SampleList.txt
 
 ## Pulling out sample IDs
-    # cat =                 # sed = 
+    # cat =                 # sed =
 ID=$( cat "$sample_list" | sed -n ${SGE_TASK_ID}p )
 
 ## Creating directory for each sample
 mkdir $(pwd)/QC/${ID}
 
 ## Setting directory paths in and out of each of these folders
-IN=$(pwd)/rawData/${ID}
+IN=$(pwd)/../../Ch1_dataStorage/Ch1.R_rawData/${ID}
 OUT=$(pwd)/QC/${ID}
 
 ## Move into the directory of each sample in preparation for running QC reports
@@ -49,6 +49,7 @@ cd ${IN}
 
 ## If required, loading fastqc module
 module load fastqc/0.11.9
+
 
 
 

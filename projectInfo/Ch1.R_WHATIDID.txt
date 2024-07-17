@@ -5,7 +5,7 @@ More in-depth documentation can be found within the scripts, with each script in
 
 Jul 16th 
 - Ch1.A_rawDataQC.sh created
-- Ch1.A_rawDataQC.sh finished  (NEEDS TESTING)
+- Ch1.A_rawDataQC.sh finished  (NEEDS TESTING) <- Completed (Jul 16th)
 
 - Ch1.RNA directory created
 	- Metadata created
@@ -15,3 +15,11 @@ Jul 16th
 - Ch1.R_scriptOrder created
 - Ch1.R_requiredModules.sh created
 - Ch1.R_inputDataDescription.txt created
+
+- QC reports for all 17 samples generated
+	- Ch1.RNA/QC
+
+___
+
+Jul 17th 
+- Ch1.B_genomeIndexing created
