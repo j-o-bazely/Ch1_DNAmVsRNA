@@ -1,0 +1,7 @@
+#### Ch1_R Raw Input Data ####
+
+# Written by: James B
+
+# Date: 16.07.2024
+
+# A description of the raw input data used for the RNA analysis section of this chapter

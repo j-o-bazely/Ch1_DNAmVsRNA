@@ -1,0 +1,12 @@
+This is a day-by-day account of every significant change made to the code in this repository.
+
+
+Aug 15th
+- Ch1.DNA / Metadata / QC / Scripts directories created
+
+Aug 16th
+- Ch1.D_WHATIDID.txt created
+- Ch1.D_ScriptOrder.txt created
+- Ch1.D_inputDataDescription.txt created
+
+- Ch1.D.A_objectPreparation created
