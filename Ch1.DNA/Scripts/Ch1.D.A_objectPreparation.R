@@ -10,7 +10,7 @@
 
 
 ###        ###       ###        ###          ###         ###        ###  
-#####               
+#####
 
 
 #### 1. ENV PREP                                                                ####
@@ -20,15 +20,13 @@ library('methylKit')
 library('ggplot2')
 
 ## PATHS
-WorkingDir <- '/data/SBCS-EizaguirreLab/James_B/phd/JB1_DNAm_RNA_comparison/JB1.M_METHYLATION'
+WorkingDir <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_DNAmVsRNA/Ch1.DNA'
 
-objPath <- paste(WorkingDir, '/JB1.M_OBJECTS', sep='')
+objPath <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_dataStorage/Ch1.M_data'
 
-objOutPath <-paste(objPath, '/JB1.M_MethylKitObjects', sep='')
+figOutPath <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_DNAmVsRNA/Ch1.DNA/Figures'
 
-figOutPath <- paste(WorkingDir, '/JB1.M_FIGURES', sep='')
-
-MetadataPath <- paste(objPath, '/JB1.M_Metadata', sep='')
+MetadataPath <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_DNAmVsRNA/Ch1.DNA/Metadata'
 
 ## custom functions
 source(file.path("/data/SBCS-EizaguirreLab/James_B/JB_Island_project/JB_Code/customRfunctions_CY.R"))
