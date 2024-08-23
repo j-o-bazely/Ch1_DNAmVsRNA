@@ -1,4 +1,4 @@
-##########           JB0.1A - Object_Preparation              ##########
+##########           Ch1.DNA_1_ObjectPreparation.r                              ##########
 
 ###
 
@@ -22,7 +22,9 @@ library('ggplot2')
 ## PATHS
 WorkingDir <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_DNAmVsRNA/Ch1.DNA'
 
-objPath <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_dataStorage/Ch1.M_data'
+dataPath <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_dataStorage'
+
+DataOutDir <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_dataStorage/Ch1.M_data/Ch1.M.1_data'
 
 figOutPath <- '/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_DNAmVsRNA/Ch1.DNA/Figures'
 
@@ -34,42 +36,13 @@ source(file.path("/data/SBCS-EizaguirreLab/James_B/JB_Island_project/JB_Code/cus
 
 
 #### 2. OBJECT GENERATION
-#### Metadata PREP ####
-# Load metadata
-preMeta <- read.csv(file.path(MetadataPath, 'JB1_UncleanMetadata.csv'))
-preMeta <- subset(preMeta, select = c('Female_ID', 'Treatment', 'Nest_ID'))
 
-# Load list of samples
-sample_list <- read_lines(file.path(MetadataPath, 'JB1_SampleList.txt'))
-
-# Create empty dataframe for metadata
-metadata <- data.frame()
-
-# Loop through preMeta df
-for(i in 1:length(preMeta$Nest_ID)){
-  # For each row in preMeta, loop through the sample list to see 
-  # which hatchling it is for, based on Nest_ID
-  for(j in sample_list)
-    if(grepl(preMeta$Nest_ID[i], j)){
-      # If it's the correct hatchling, add that information to the metadata
-      metadata <- rbind(metadata, preMeta[i,])
-    }
-}
-
-metadata <- metadata %>% 
-  rename(Depth = Treatment)
-
-# Add the hatchling IDs to the metadata, leaving us with the correct metadata 
-#for each hatchling
-metadata$hatchling_ID <- sample_list
-
-# Save the cleaned metadata
-
-write.csv(metadata, file.path(MetadataPath, '/JB1_CleanMetadata.csv'))
-
+## Load metadata
+metadata <- read.csv(file = file.path(MetadataPath, 'JB1_CleanMetadata.csv'))
 
 #### Global Methylation Prep                                                    ####
 
+## This function generates a methylRaw object used for global analysis and 
 ## List of paths to sample files
 prepMethObj <- function(trt = c('Depth', 'Female_ID')){
   
@@ -83,7 +56,7 @@ prepMethObj <- function(trt = c('Depth', 'Female_ID')){
   # Path to sample methylation data
   SamplePathVector <- c()
   for(i in 1:length(metadata$hatchling_ID)){
-    SamplePathVector <- append(SamplePathVector, paste(objPath, sprintf('JB1.M_RawReads/JB1_%s.CpG_merged.cov.gz', metadata$hatchling_ID[i]), sep = '/'))
+    SamplePathVector <- append(SamplePathVector, paste(dataPath, sprintf('Ch1.ReMap_data/Ch1.ReMap.4_data/destrandedCalls/%s/%s.CpG_merged.cov.gz', metadata$hatchling_ID[i], metadata$hatchling_ID[i]), sep = '/'))
   }
   
   # List of paths to sample methylation datum
@@ -111,11 +84,11 @@ prepMethObj <- function(trt = c('Depth', 'Female_ID')){
   }
   
   # Running MethRead()
-  methObj <- methRead(location = SamplePathList,
-                      sample.id = sampleIdList,
-                      treatment = treatmentVector,
+  methObj <- methRead(location = SamplePathList[1:9],
+                      sample.id = sampleIdList[1:9],
+                      treatment = treatmentVector[1:9],
                       context = 'CpG',
-                      assembly = 'CarCar_QM_v1_2021_12_Scaff_With_Chr0',
+                      assembly = 'Chang2023',
                       pipeline="bismarkCoverage"
   )
   
@@ -142,7 +115,7 @@ prepMethObj <- function(trt = c('Depth', 'Female_ID')){
   
   
   # Save object
-  saveRDS(uniteMeth100pc, file.path(paste('/data/SBCS-EizaguirreLab/James_B/phd/JB1_DNAm_RNA_comparison/JB1.M_METHYLATION/JB1.M_OBJECTS/JB1.M_MethylKitObjects/JB1_UniteCovObj100pc_', trt, '_trt.RDS', sep = '')))
+  saveRDS(uniteMeth100pc, file.path(DataOutDir, 'ch1.M.1_uniteMeth100pc.RDS'))
   
   # Remove the uniteMeth object to save memory
   rm(uniteMeth100pc)
@@ -156,13 +129,13 @@ prepMethObj <- function(trt = c('Depth', 'Female_ID')){
   
   # Run unite() again, with the minimum number of samples per group required to have coverage at a base reduced to 75% for inclusion
   uniteMeth_75pc = methylKit::unite(MethNormFilter5Cov,
-                                    min.per.group= (min))
+                                    min.per.group= 6L)
   
   # Convert to a methylBase object
   uniteMeth_75pc = as(uniteMeth_75pc,"methylBase")
   
   # Save object
-  saveRDS(uniteMeth_75pc, file.path(paste('/data/SBCS-EizaguirreLab/James_B/phd/JB1_DNAm_RNA_comparison/JB1.M_METHYLATION/JB1.M_OBJECTS/JB1.M_MethylKitObjects/JB1_UniteCovObj75pc_', trt, '_trt.RDS', sep = '')))
+  saveRDS(uniteMeth_75pc, file.path(DataOutDir, 'ch1.M.1_uniteMeth75pc.RDS'))
   
   rm(uniteMeth_75pc)
   gc()
@@ -185,20 +158,21 @@ prepMethObj(trt = 'Female_ID')
 # Calculate differential methylation between deep and shallow hatchlings #
 diffMethRuntimeFunc<- function(methObj100pc_D){
   start.time <- Sys.time()
-  diffMethObj100pc_D <- calculateDiffMeth(methObj100pc_D,
-                                     overdispersion = "MN",
-                                     adjust="BH")
-  saveRDS(diffMethObj100pc_D, file = file.path('/data/SBCS-EizaguirreLab/James_B/phd/JB1_DNAm_RNA_comparison/JB1.M_METHYLATION/JB1.M_OBJECTS/JB1.M_MethylKitObjects/JB1.M_DiffMethObjects/JB1_DiffMeth_UniteCovObj100pc_Depth_trt.RDS'))
+  diffMethObj100pc_D <- calculateDiffMeth(uniteMeth100pc,
+                                          overdispersion = "MN",
+                                          adjust="BH",
+                                          mc.cores = 5)
+  #saveRDS(diffMethObj100pc_D, file = file.path('/data/SBCS-EizaguirreLab/James_B/phd/JB1_DNAm_RNA_comparison/JB1.M_METHYLATION/JB1.M_OBJECTS/JB1.M_MethylKitObjects/JB1.M_DiffMethObjects/JB1_DiffMeth_UniteCovObj100pc_Depth_trt.RDS'))
   end.time <- Sys.time()
   time.taken <- round(end.time - start.time,2)
   time.taken
 }
 
-diffMethRuntimeFunc(methObj100pc_D)
+diffMethRuntimeFunc(uniteMeth100pc)
 
 
 ## Save differential methylation object
-saveRDS(diffMethObj100pc_D, file = file.path('/data/SBCS-EizaguirreLab/James_B/phd/JB1_DNAm_RNA_comparison/JB1.M_METHYLATION/JB1.M_OBJECTS/JB1.M_MethylKitObjects/JB1.M_DiffMethObjects/JB1_DiffMeth_UniteCovObj100pc_Depth_trt.RDS'))
+saveRDS(diffMethObj100pc_D, file.path(DataOutDir, 'ch1.M.1_diffMeth100pc.RDS'))
 
 
 ## Depth : 75% coverage ##
@@ -213,17 +187,17 @@ n_uniteCov_75pc_D = nrow(unitecov75pc_D)
 ### main diff meth calculation 
 ### the automatic p value correction is SLIM and is useful to have so I don't change it here
 diffMethObj75pc_D <- calculateDiffMeth(unitecov75pc_D,
-                                  overdispersion = "MN",  ##### Note we should include this correction as it looks like the DNAm data are "overdispersed"
-                                  chunk.size = 10000)
+                                       overdispersion = "MN",  ##### Note we should include this correction as it looks like the DNAm data are "overdispersed"
+                                       chunk.size = 10000)
 
 ### this uses the BH correction based on the number of sites in the chromosome
 diffMethObj75pc_D$p_adj_BH_n_Chrom = p.adjust(diffMethObj75pc_D$pvalue, method = "BH",
-                                         n = n_uniteCov_75pc_D)
+                                              n = n_uniteCov_75pc_D)
 
 ### this uses the BH correction based on the number of sites in the whole genome
 diffMethObj75pc_D$p_adj_BH_n_WG = p.adjust(diffMethObj75pc_D$pvalue, method = "BH",
-                                      n = n_uniteCov_75pc_D )
+                                           n = n_uniteCov_75pc_D )
 
 # Save differential methylation object
-saveRDS(diffMethObj75pc_D, file = file.path('/data/SBCS-EizaguirreLab/James_B/phd/JB1_DNAm_RNA_comparison/JB1.M_METHYLATION/JB1.M_OBJECTS/JB1.M_MethylKitObjects/JB1.M_DiffMethObjects/JB1_DiffMeth_UniteCovObj75pc_Depth_trt.RDS'))
+saveRDS(file.path(DataOutDir, 'ch1.M.1_uniteMeth75pc.RDS'))
 
