@@ -38,7 +38,7 @@ ID=$( cat "$sample_list" | sed -n ${SGE_TASK_ID}p )
 module load samtools/1.19.2
 
 ## Run samtools view to see number of reads
-total_reads=$(samtools view -c ${BAMDIR}/${ID}_deduplicated.sorted_by_name.bam)
+total_reads=$(samtools view -c ${BAMDIR}/${ID}/${ID}_deduplicated.sorted_by_name.bam)
 echo "Total reads for $SAMPLE: $total_reads"
 
 ## Unload module
