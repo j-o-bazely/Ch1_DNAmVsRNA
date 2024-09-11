@@ -21,7 +21,7 @@
 ####        Environment Preparation         ####
 
 ## Set directories
-BAMDIR=Ch1_dataStorage/Ch1.ReMap_data/Ch1.ReMap.2_data/bams
+BAMDIR=/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_dataStorage/Ch1.ReMap_data/Ch1.ReMap.2_data/bams
 
 ## Loading sample list to create array
 sample_list=Metadata/JB1R_SampleList.txt
