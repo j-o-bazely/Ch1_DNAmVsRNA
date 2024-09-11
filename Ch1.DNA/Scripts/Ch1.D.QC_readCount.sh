@@ -24,7 +24,7 @@
 BAMDIR=/data/SBCS-EizaguirreLab/James_B/cleanPHD/Ch1_dataStorage/Ch1.ReMap_data/Ch1.ReMap.2_data/bams
 
 ## Loading sample list to create array
-sample_list=Metadata/JB1R_SampleList.txt
+sample_list=/data/SBCS-eizaguirreLab/James_B/cleanPHD/Ch1_DNAmVsRNA/Ch1.DNA/Metadata/JB1R_SampleList.txt
 
 ## Pulling out sample IDs
     # cat =                 # sed =
