@@ -39,7 +39,8 @@ module load samtools/1.19.2
 
 ## Run samtools view to see number of reads
 total_reads=$(samtools view -c ${BAMDIR}/${ID}/${ID}_deduplicated.sorted_by_name.bam)
-echo "Total reads for $ID: $total_reads"
+echo "Total reads for $ID: $total_reads" >> results.txt
+
 
 ## Unload module
 module unload samtools/1.19.2
