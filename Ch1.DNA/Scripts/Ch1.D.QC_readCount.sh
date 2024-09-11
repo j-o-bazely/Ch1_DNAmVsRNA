@@ -2,8 +2,8 @@
     # Will simply be commented out if not running on apocrita
 
 #!/bin/bash
-#$ -pe smp 1
-#$ -l h_vmem=1G
+#$ -pe smp 3
+#$ -l h_vmem=10G
 #$ -l h_rt=1:0:0
 #$ -cwd
 #$ -j y
@@ -39,7 +39,7 @@ module load samtools/1.19.2
 
 ## Run samtools view to see number of reads
 total_reads=$(samtools view -c ${BAMDIR}/${ID}/${ID}_deduplicated.sorted_by_name.bam)
-echo "Total reads for $ID: $total_reads" >> results.txt
+echo "Total reads for $ID: $total_reads"
 
 
 ## Unload module
