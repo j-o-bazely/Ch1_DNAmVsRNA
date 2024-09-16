@@ -17,8 +17,8 @@ cd ../../..
 
 # Set paths
 WORKDIR=$(pwd)
-DATADIR="{$WORKDIR}Ch1_DataStorage/"
-METHDIR="{$WORKDIR}Ch1_DNAmVsRNA/Ch1.DNA/"
+DATADIR="${WORKDIR}Ch1_DataStorage/"
+METHDIR="${WORKDIR}Ch1_DNAmVsRNA/Ch1.DNA/"
 
 echo "Working directory: $WORKDIR"
 echo "Data directory: $DATADIR"
