@@ -25,11 +25,11 @@ echo "Data directory: $DATADIR"
 
 ##              Script to Run               ##
 # Move into directory containing Gff3 file
-cd ${DATADIR}/Ch1_inputData/Ch1_ChangGenome
+cd ${DATADIR}Ch1_inputData/Ch1_ChangGenome
 echo "Now in $(pwd)" 
 
 # Run gff3 to BED conversion
-${METHDIR}/Metadata/Packages/TransDecoder/util/gtf_to_bed.pl \
+${METHDIR}Metadata/Packages/TransDecoder/util/gtf_to_bed.pl \
 Chang23LoggerheadAnnotation.gtf \
 > Chang23LoggerheadAnnotation.bed12
 
