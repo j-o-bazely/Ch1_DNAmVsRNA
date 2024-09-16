@@ -15,7 +15,7 @@
 # Move into cleanPHD to set WORKDIR path from which all other required directories can be accessed downstream
 cd ../../..
 
-## Set paths
+# Set paths
 WORKDIR=$(pwd)
 DATADIR="{$WORKDIR}Ch1_DataStorage/"
 METHDIR="{$WORKDIR}Ch1_DNAmVsRNA/Ch1.DNA/"
@@ -24,13 +24,12 @@ echo "Working directory: $WORKDIR"
 echo "Data directory: $DATADIR"
 
 ##              Script to Run               ##
-
-## Move into directory containing Gff3 file
+# Move into directory containing Gff3 file
 cd ${DATADIR}/Ch1_inputData/Ch1_ChangGenome
-
 echo "Now in $(pwd)" 
 
 # Run gff3 to BED conversion
 ${METHDIR}/Metadata/Packages/TransDecoder/util/gtf_to_bed.pl \
 Chang23LoggerheadAnnotation.gtf \
 > Chang23LoggerheadAnnotation.bed12
+
