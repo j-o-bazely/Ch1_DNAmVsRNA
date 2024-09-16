@@ -16,11 +16,20 @@
 cd ../../..
 
 ## Set paths
-WORKDIR="{$pwd}/"
+WORKDIR=$(pwd)
 DATADIR="{$WORKDIR}Ch1_DataStorage/"
 
-echo "Working directory: {$WORKDIR}"
-echo "Data directory: {$DATADIR}"
+echo "Working directory: $WORKDIR"
+echo "Data directory: $DATADIR"
 
-## Load module
+##              Script to Run               ##
 
+## Move into directory containing Gff3 file
+cd {DATADIR}/Ch1_inputData/Ch1_ChangGenome
+
+echo "Now in $(pwd)" 
+
+# Run gff3 to BED conversion
+$TRANSDECODER_PATH/gff3_file_to_bed.pl \
+Chang23LoggerheadAnnotation.gff \
+> Chang23LoggerheadAnnotation.bed12
